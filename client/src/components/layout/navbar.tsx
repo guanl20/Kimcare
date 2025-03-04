@@ -7,7 +7,7 @@ export default function Navbar() {
       <div className="container flex h-16 items-center px-4">
         <Link href="/">
           <a className="mr-8 flex items-center space-x-2">
-            <span className="text-xl font-bold">MindfulCare</span>
+            <span className="text-xl font-bold">KIMCARE</span>
           </a>
         </Link>
         <div className="flex items-center justify-between flex-1">

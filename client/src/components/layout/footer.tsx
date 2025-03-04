@@ -6,7 +6,7 @@ export default function Footer() {
       <div className="container px-4">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
           <div>
-            <h3 className="font-semibold mb-4">MindfulCare</h3>
+            <h3 className="font-semibold mb-4">KIMCARE</h3>
             <p className="text-sm text-muted-foreground">
               Supporting mental health awareness and wellbeing in our community.
             </p>
@@ -34,7 +34,7 @@ export default function Footer() {
           <div>
             <h4 className="font-medium mb-4">Contact</h4>
             <ul className="space-y-2 text-sm">
-              <li>Email: contact@mindfulcare.org</li>
+              <li>Email: contact@kimcare.org</li>
               <li>Phone: (555) 123-4567</li>
             </ul>
           </div>
@@ -46,7 +46,7 @@ export default function Footer() {
           </div>
         </div>
         <div className="mt-8 pt-8 border-t text-center text-sm text-muted-foreground">
-          © {new Date().getFullYear()} MindfulCare. All rights reserved.
+          © {new Date().getFullYear()} KIMCARE. All rights reserved.
         </div>
       </div>
     </footer>
