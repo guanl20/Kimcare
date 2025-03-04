@@ -1,7 +1,7 @@
 import type { Express } from "express";
 import { createServer, type Server } from "http";
 import { storage } from "./storage";
-import { insertVolunteerSchema, insertDonationSchema } from "@shared/schema";
+import { insertVolunteerSchema, insertDonationSchema, insertHealthContentSchema } from "@shared/schema";
 import Stripe from "stripe";
 
 // Initialize Stripe with API key (uses test key if not provided)
@@ -74,6 +74,48 @@ export async function registerRoutes(app: Express): Promise<Server> {
     // Store the donation record
     const donation = await storage.createDonation(parsedData.data);
     res.json(donation);
+  });
+
+  // GET /api/health-content - Fetch all health content
+  app.get("/api/health-content", async (_req, res) => {
+    const content = await storage.getHealthContent();
+    res.json(content);
+  });
+
+  // GET /api/health-content/:id - Fetch single content
+  app.get("/api/health-content/:id", async (req, res) => {
+    const content = await storage.getHealthContentById(Number(req.params.id));
+    if (!content) {
+      return res.status(404).json({ error: "Content not found" });
+    }
+    res.json(content);
+  });
+
+  // POST /api/health-content - Create new content
+  app.post("/api/health-content", async (req, res) => {
+    const parsedData = insertHealthContentSchema.safeParse(req.body);
+    if (!parsedData.success) {
+      return res.status(400).json({ error: "Invalid content data" });
+    }
+    const content = await storage.createHealthContent(parsedData.data);
+    res.json(content);
+  });
+
+  // PATCH /api/health-content/:id - Update content
+  app.patch("/api/health-content/:id", async (req, res) => {
+    const parsedData = insertHealthContentSchema.partial().safeParse(req.body);
+    if (!parsedData.success) {
+      return res.status(400).json({ error: "Invalid content data" });
+    }
+    try {
+      const content = await storage.updateHealthContent(
+        Number(req.params.id),
+        parsedData.data
+      );
+      res.json(content);
+    } catch (error) {
+      res.status(404).json({ error: "Content not found" });
+    }
   });
 
   // Create and return HTTP server

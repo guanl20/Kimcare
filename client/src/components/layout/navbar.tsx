@@ -39,6 +39,11 @@ export default function Navbar() {
                 Code Examples
               </a>
             </Link>
+            <Link href="/admin/content">
+              <a className="text-sm font-medium transition-colors hover:text-primary">
+                Manage Content
+              </a>
+            </Link>
           </div>
 
           {/* Prominent donation button */}

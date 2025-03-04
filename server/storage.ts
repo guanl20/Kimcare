@@ -2,7 +2,8 @@ import {
   type Volunteer, type InsertVolunteer,
   type Donation, type InsertDonation,
   type Partner, type InsertPartner,
-  type Resource, type InsertResource
+  type Resource, type InsertResource,
+  type HealthContent, type InsertHealthContent
 } from "@shared/schema";
 
 // Interface defining all storage operations
@@ -23,6 +24,13 @@ export interface IStorage {
   getResources(): Promise<Resource[]>;
   getResourcesByCategory(category: string): Promise<Resource[]>;
   createResource(resource: InsertResource): Promise<Resource>;
+
+  // Health content management operations
+  getHealthContent(): Promise<HealthContent[]>;
+  getHealthContentById(id: number): Promise<HealthContent | null>;
+  createHealthContent(content: InsertHealthContent): Promise<HealthContent>;
+  updateHealthContent(id: number, content: Partial<InsertHealthContent>): Promise<HealthContent>;
+  getHealthContentByStatus(status: string): Promise<HealthContent[]>;
 }
 
 // In-memory storage implementation using Maps
@@ -32,6 +40,7 @@ export class MemStorage implements IStorage {
   private donations: Map<number, Donation>;
   private partners: Map<number, Partner>;
   private resources: Map<number, Resource>;
+  private healthContent: Map<number, HealthContent>;
 
   // Auto-incrementing IDs for each type
   private currentIds: { [key: string]: number };
@@ -42,13 +51,15 @@ export class MemStorage implements IStorage {
     this.donations = new Map();
     this.partners = new Map();
     this.resources = new Map();
+    this.healthContent = new Map();
 
     // Initialize ID counters
     this.currentIds = {
       volunteers: 1,
       donations: 1,
       partners: 1,
-      resources: 1
+      resources: 1,
+      healthContent: 1
     };
 
     // Populate initial data
@@ -145,6 +156,52 @@ export class MemStorage implements IStorage {
     const newResource = { ...resource, id };
     this.resources.set(id, newResource);
     return newResource;
+  }
+
+  // Health content operations
+  async getHealthContent(): Promise<HealthContent[]> {
+    return Array.from(this.healthContent.values());
+  }
+
+  async getHealthContentById(id: number): Promise<HealthContent | null> {
+    return this.healthContent.get(id) || null;
+  }
+
+  async createHealthContent(content: InsertHealthContent): Promise<HealthContent> {
+    const id = this.currentIds.healthContent++;
+    const now = new Date();
+    const newContent = {
+      ...content,
+      id,
+      createdAt: now,
+      updatedAt: now,
+      tags: content.tags || [],
+    };
+    this.healthContent.set(id, newContent);
+    return newContent;
+  }
+
+  async updateHealthContent(
+    id: number,
+    content: Partial<InsertHealthContent>
+  ): Promise<HealthContent> {
+    const existing = await this.getHealthContentById(id);
+    if (!existing) {
+      throw new Error("Content not found");
+    }
+    const updated = {
+      ...existing,
+      ...content,
+      updatedAt: new Date(),
+    };
+    this.healthContent.set(id, updated);
+    return updated;
+  }
+
+  async getHealthContentByStatus(status: string): Promise<HealthContent[]> {
+    return Array.from(this.healthContent.values()).filter(
+      content => content.status === status
+    );
   }
 }
 
