@@ -5,37 +5,45 @@ import {
   type Resource, type InsertResource
 } from "@shared/schema";
 
+// Interface defining all storage operations
 export interface IStorage {
-  // Volunteers
+  // Volunteer management operations
   getVolunteers(): Promise<Volunteer[]>;
   createVolunteer(volunteer: InsertVolunteer): Promise<Volunteer>;
-  
-  // Donations
+
+  // Donation tracking operations
   getDonations(): Promise<Donation[]>;
   createDonation(donation: InsertDonation): Promise<Donation>;
-  
-  // Partners
+
+  // Partner management operations
   getPartners(): Promise<Partner[]>;
   createPartner(partner: InsertPartner): Promise<Partner>;
-  
-  // Resources
+
+  // Resource management operations
   getResources(): Promise<Resource[]>;
   getResourcesByCategory(category: string): Promise<Resource[]>;
   createResource(resource: InsertResource): Promise<Resource>;
 }
 
+// In-memory storage implementation using Maps
 export class MemStorage implements IStorage {
+  // Maps to store different types of data
   private volunteers: Map<number, Volunteer>;
   private donations: Map<number, Donation>;
   private partners: Map<number, Partner>;
   private resources: Map<number, Resource>;
+
+  // Auto-incrementing IDs for each type
   private currentIds: { [key: string]: number };
 
   constructor() {
+    // Initialize empty storage Maps
     this.volunteers = new Map();
     this.donations = new Map();
     this.partners = new Map();
     this.resources = new Map();
+
+    // Initialize ID counters
     this.currentIds = {
       volunteers: 1,
       donations: 1,
@@ -43,11 +51,12 @@ export class MemStorage implements IStorage {
       resources: 1
     };
 
-    // Add some initial resources
+    // Populate initial data
     this.initializeResources();
     this.initializePartners();
   }
 
+  // Add sample resources for testing and demonstration
   private initializeResources() {
     const initialResources: InsertResource[] = [
       {
@@ -69,6 +78,7 @@ export class MemStorage implements IStorage {
     initialResources.forEach(resource => this.createResource(resource));
   }
 
+  // Add sample partners for testing and demonstration
   private initializePartners() {
     const initialPartners: InsertPartner[] = [
       {
@@ -83,6 +93,7 @@ export class MemStorage implements IStorage {
     initialPartners.forEach(partner => this.createPartner(partner));
   }
 
+  // Volunteer operations
   async getVolunteers(): Promise<Volunteer[]> {
     return Array.from(this.volunteers.values());
   }
@@ -94,6 +105,7 @@ export class MemStorage implements IStorage {
     return newVolunteer;
   }
 
+  // Donation operations
   async getDonations(): Promise<Donation[]> {
     return Array.from(this.donations.values());
   }
@@ -105,6 +117,7 @@ export class MemStorage implements IStorage {
     return newDonation;
   }
 
+  // Partner operations
   async getPartners(): Promise<Partner[]> {
     return Array.from(this.partners.values());
   }
@@ -116,6 +129,7 @@ export class MemStorage implements IStorage {
     return newPartner;
   }
 
+  // Resource operations
   async getResources(): Promise<Resource[]> {
     return Array.from(this.resources.values());
   }
@@ -134,4 +148,5 @@ export class MemStorage implements IStorage {
   }
 }
 
+// Create and export a single instance of storage
 export const storage = new MemStorage();
