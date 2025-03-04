@@ -34,6 +34,11 @@ export default function Navbar() {
                 Partners
               </a>
             </Link>
+            <Link href="/code-explained">
+              <a className="text-sm font-medium transition-colors hover:text-primary">
+                Code Examples
+              </a>
+            </Link>
           </div>
 
           {/* Prominent donation button */}
