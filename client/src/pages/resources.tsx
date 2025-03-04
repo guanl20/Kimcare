@@ -8,8 +8,9 @@ export default function Resources() {
     queryKey: ["/api/resources"],
   });
 
+  // Convert Set to Array to avoid iteration issues
   const categories = resources 
-    ? [...new Set(resources.map(r => r.category))]
+    ? Array.from(new Set(resources.map(r => r.category)))
     : [];
 
   return (

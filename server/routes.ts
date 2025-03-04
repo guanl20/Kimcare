@@ -5,7 +5,7 @@ import { insertVolunteerSchema, insertDonationSchema } from "@shared/schema";
 import Stripe from "stripe";
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY || "sk_test_default", {
-  apiVersion: "2023-10-16",
+  apiVersion: "2025-02-24.acacia",
 });
 
 export async function registerRoutes(app: Express): Promise<Server> {

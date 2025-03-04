@@ -9,7 +9,7 @@ export const volunteers = pgTable("volunteers", {
   phone: text("phone").notNull(),
   skills: text("skills").notNull(),
   availability: text("availability").notNull(),
-  experience: text("experience"),
+  experience: text("experience").default("").notNull(),
 });
 
 export const donations = pgTable("donations", {
@@ -17,8 +17,8 @@ export const donations = pgTable("donations", {
   amount: integer("amount").notNull(),
   email: text("email").notNull(),
   name: text("name").notNull(),
-  message: text("message"),
-  anonymous: boolean("anonymous").default(false),
+  message: text("message").default("").notNull(),
+  anonymous: boolean("anonymous").default(false).notNull(),
 });
 
 export const partners = pgTable("partners", {
@@ -36,7 +36,7 @@ export const resources = pgTable("resources", {
   description: text("description").notNull(),
   category: text("category").notNull(),
   content: text("content").notNull(),
-  tags: text("tags").array(),
+  tags: text("tags").array().default([]).notNull(),
 });
 
 export const insertVolunteerSchema = createInsertSchema(volunteers);
