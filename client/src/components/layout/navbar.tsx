@@ -11,7 +11,11 @@ export default function Navbar() {
         {/* Organization logo/name with link to homepage */}
         <Link href="/">
           <a className="mr-8 flex items-center space-x-2">
-            <span className="text-xl font-bold">KIMCARE</span>
+            <img 
+              src="/attached_assets/WhatsApp Image 2025-03-04 at 18.21.34.jpeg" 
+              alt="KIMCARE Logo" 
+              className="h-8 w-auto"
+            />
           </a>
         </Link>
 
