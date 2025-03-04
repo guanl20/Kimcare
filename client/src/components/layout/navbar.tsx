@@ -34,11 +34,6 @@ export default function Navbar() {
                 Partners
               </a>
             </Link>
-            <Link href="/code-explained">
-              <a className="text-sm font-medium transition-colors hover:text-primary">
-                Code Examples
-              </a>
-            </Link>
             <Link href="/admin/content">
               <a className="text-sm font-medium transition-colors hover:text-primary">
                 Manage Content

@@ -10,7 +10,6 @@ import Donate from "@/pages/donate";
 import Volunteer from "@/pages/volunteer";
 import Resources from "@/pages/resources";
 import Partners from "@/pages/partners";
-import CodeExplained from "@/pages/code-explained";
 import ContentManager from "@/pages/admin/content-manager";
 
 function Router() {
@@ -24,7 +23,6 @@ function Router() {
           <Route path="/volunteer" component={Volunteer} />
           <Route path="/resources" component={Resources} />
           <Route path="/partners" component={Partners} />
-          <Route path="/code-explained" component={CodeExplained} />
           <Route path="/admin/content" component={ContentManager} />
           <Route component={NotFound} />
         </Switch>
